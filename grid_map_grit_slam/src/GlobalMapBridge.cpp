@@ -7,9 +7,11 @@
 #include <pcl_conversions/pcl_conversions.h>
 
 #include <filesystem>
+#include <functional>
 #include <memory>
 #include <stdexcept>
 #include <utility>
+#include <algorithm>
 
 namespace grid_map_grit_slam
 {
