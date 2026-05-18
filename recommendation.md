@@ -92,3 +92,18 @@ QoS 및 동작 조건:
 5. 남은 제약사항
 
 ---
+
+구현은 끝났습니다. 새 패키지 package.xml 과 CMakeLists.txt 를 추가했고, PointCloud2를 GridMap으로 바꾸는 브리지 노드는 GlobalMapBridge.cpp 와 global_map_bridge_node.cpp 에 들어 있습니다. 단독 실행 launch는 global_map_launch.py, Foxglove용 시각화 설정은 global_map_visualization.yaml, PCL 처리 파라미터는 pcl_parameters.yaml 에 추가했습니다. 사용법 요약은 README.md 에 적어 두었습니다.
+
+실행 명령은 아래입니다.
+
+ros2 launch grid_map_grit_slam global_map_launch.py
+
+입력과 출력은 다음 구조입니다.
+
+- 입력: /grit_slam/global_map, sensor_msgs/msg/PointCloud2
+- 원본 결과: /grid_map, grid_map_msgs/msg/GridMap
+- Foxglove 시각화용: /elevation_points, sensor_msgs/msg/PointCloud2
+- Foxglove 시각화용: /elevation_grid, nav_msgs/msg/OccupancyGrid
+
+구성은 브리지 노드가 /grid_map 만 만들고, grid_map_visualization 이 이를 받아 /elevation_points 와 /elevation_grid 를 재발행하는 방식입니다. Foxglove에서는 주로 /elevation_points 와 /elevation_grid 를 보면 되고, /grid_map 은 raw message 확인용입니다.
