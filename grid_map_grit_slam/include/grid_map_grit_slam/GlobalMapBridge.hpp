@@ -12,17 +12,30 @@
 namespace grid_map_grit_slam
 {
 
+struct BridgeDefaults
+{
+  std::string nodeName{"global_map_bridge"};
+  std::string inputTopic{"/grit_slam/global_map"};
+  std::string gridMapTopic{"/grid_map"};
+  std::string layerName{"elevation"};
+  std::string processingConfigFile{"pcl_parameters.yaml"};
+  bool outputTransientLocal{true};
+};
+
 class GlobalMapBridge : public rclcpp::Node
 {
 public:
-  explicit GlobalMapBridge(const rclcpp::NodeOptions & options = rclcpp::NodeOptions());
+  explicit GlobalMapBridge(
+    const BridgeDefaults & defaults = BridgeDefaults(),
+    const rclcpp::NodeOptions & options = rclcpp::NodeOptions());
 
 private:
   void pointCloudCallback(const sensor_msgs::msg::PointCloud2::SharedPtr message);
   void loadProcessingConfig(const std::string & processingConfigPath);
   rclcpp::QoS makeInputQos() const;
-  static std::string getDefaultProcessingConfigPath();
+  static std::string getDefaultProcessingConfigPath(const std::string & fileName);
 
+  BridgeDefaults defaults_;
   std::string inputTopic_;
   std::string gridMapTopic_;
   std::string layerName_;

@@ -3,7 +3,7 @@
 <package format="3">
   <name>grid_map_grit_slam</name>
   <version>0.0.1</version>
-  <description>Bridge package that converts grit_slam global PointCloud2 maps into GridMap and Foxglove-friendly visualization topics.</description>
+  <description>Bridge package that converts live or saved PointCloud2 maps into GridMap and Foxglove-friendly visualization topics.</description>
   <maintainer email="copilot@example.com">GitHub Copilot</maintainer>
   <license>BSD-3-Clause</license>
 

@@ -16,19 +16,24 @@
 namespace grid_map_grit_slam
 {
 
-GlobalMapBridge::GlobalMapBridge(const rclcpp::NodeOptions & options)
-: Node("global_map_bridge", options),
+GlobalMapBridge::GlobalMapBridge(
+  const BridgeDefaults & defaults,
+  const rclcpp::NodeOptions & options)
+: Node(defaults.nodeName, options),
+  defaults_(defaults),
   loader_(this->get_logger())
 {
-  this->declare_parameter("input_topic", std::string("/grit_slam/global_map"));
-  this->declare_parameter("grid_map_topic", std::string("/grid_map"));
-  this->declare_parameter("layer_name", std::string("elevation"));
+  this->declare_parameter("input_topic", defaults_.inputTopic);
+  this->declare_parameter("grid_map_topic", defaults_.gridMapTopic);
+  this->declare_parameter("layer_name", defaults_.layerName);
   this->declare_parameter("map_frame", std::string(""));
-  this->declare_parameter("processing_config_file", getDefaultProcessingConfigPath());
+  this->declare_parameter(
+    "processing_config_file",
+    getDefaultProcessingConfigPath(defaults_.processingConfigFile));
   this->declare_parameter("qos_depth", 1);
   this->declare_parameter("input_qos_reliability", std::string("best_effort"));
   this->declare_parameter("input_qos_durability", std::string("volatile"));
-  this->declare_parameter("output_transient_local", true);
+  this->declare_parameter("output_transient_local", defaults_.outputTransientLocal);
 
   this->get_parameter("input_topic", inputTopic_);
   this->get_parameter("grid_map_topic", gridMapTopic_);
@@ -57,7 +62,7 @@ GlobalMapBridge::GlobalMapBridge(const rclcpp::NodeOptions & options)
 
   RCLCPP_INFO(
     this->get_logger(),
-    "Listening for global map point clouds on '%s' and publishing GridMap on '%s'.",
+    "Listening for point clouds on '%s' and publishing GridMap on '%s'.",
     inputTopic_.c_str(), gridMapTopic_.c_str());
 }
 
@@ -142,10 +147,10 @@ rclcpp::QoS GlobalMapBridge::makeInputQos() const
   return qos;
 }
 
-std::string GlobalMapBridge::getDefaultProcessingConfigPath()
+std::string GlobalMapBridge::getDefaultProcessingConfigPath(const std::string & fileName)
 {
   return ament_index_cpp::get_package_share_directory("grid_map_grit_slam") +
-         "/config/pcl_parameters.yaml";
+         "/config/" + fileName;
 }
 
 }  // namespace grid_map_grit_slam
