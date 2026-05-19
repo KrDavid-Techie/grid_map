@@ -6,6 +6,8 @@ ROS 2 Humble package that converts `/grit_slam/global_map` PointCloud2 messages 
 
 ```bash
 ros2 launch grid_map_grit_slam global_map_launch.py
+
+ros2 launch grid_map_grit_slam local_map_launch.py
 ```
 
 ## Topics
