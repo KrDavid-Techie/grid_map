@@ -1,15 +1,15 @@
-grid_map_visualization:
+grid_map_visualization:  # ROS 2 node name that owns the visualization parameters.
   ros__parameters:
-    grid_map_topic: /grid_map
-    transient_local: true
-    grid_map_visualizations: [elevation_points, elevation_grid]
-    elevation_points:
-      type: point_cloud
+    grid_map_topic: /grid_map                                     # Input GridMap topic consumed by the visualization node.
+    transient_local: true                                         # Use transient-local QoS so late subscribers can receive the last published map.
+    grid_map_visualizations: [elevation_points, elevation_grid]   # Visualization instances to create; each name also becomes an output topic.
+    elevation_points:    # Publishes the selected grid-map layer as sensor_msgs/msg/PointCloud2.
+      type: point_cloud  # Visualization plugin type for point cloud output.
       params:
-        layer: elevation
-    elevation_grid:
-      type: occupancy_grid
+        layer: elevation    # GridMap layer name to convert into a point cloud.
+    elevation_grid:         # Publishes the selected grid-map layer as nav_msgs/msg/OccupancyGrid.
+      type: occupancy_grid  # Visualization plugin type for occupancy-grid output.
       params:
-        layer: elevation
-        data_min: -1.0
-        data_max: 0.5
+        layer: elevation  # GridMap layer name to convert into an occupancy grid.
+        data_min: -1.0    # Lower bound used when scaling local elevation values into occupancy values.
+        data_max: 0.5     # Upper bound used when scaling local elevation values into occupancy values.

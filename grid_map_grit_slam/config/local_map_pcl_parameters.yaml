@@ -1,30 +1,30 @@
-pcl_grid_map_extraction:
-  num_processing_threads: 4
-  cloud_transform:
+pcl_grid_map_extraction:      # Parameters consumed by grid_map_pcl when converting a point cloud into a GridMap.
+  num_processing_threads: 4   # Number of worker threads used while filling grid-map cells.
+  cloud_transform:            # Rigid transform applied to the input cloud before computing the map.
     translation:
-      x: 0.0
-      y: 0.0
-      z: 0.0
+      x: 0.0  # X translation offset applied to every input point in meters.
+      y: 0.0  # Y translation offset applied to every input point in meters.
+      z: 0.0  # Z translation offset applied to every input point in meters.
     rotation:
-      r: 0.0
-      p: 0.0
-      y: 0.0
+      r: 0.0  # Roll component of the pre-processing rotation.
+      p: 0.0  # Pitch component of the pre-processing rotation.
+      y: 0.0  # Yaw component of the pre-processing rotation.
   cluster_extraction:
-    cluster_tolerance: 0.05
-    min_num_points: 2
-    max_num_points: 1000000
+    cluster_tolerance: 0.05   # Maximum distance in meters between neighboring points in the same cluster.
+    min_num_points: 2         # Smallest cluster size kept for local-map elevation estimation.
+    max_num_points: 1000000   # Largest cluster size kept for elevation estimation.
   outlier_removal:
-    is_remove_outliers: true
-    mean_K: 10
-    stddev_threshold: 1.0
+    is_remove_outliers: true  # Enable statistical outlier removal before building the map.
+    mean_K: 10                # Number of nearest neighbors used for outlier statistics.
+    stddev_threshold: 1.0     # Points farther than this standard-deviation threshold are treated as outliers.
   downsampling:
-    is_downsample_cloud: true
+    is_downsample_cloud: true  # Enable voxel-grid downsampling before map extraction.
     voxel_size:
-      x: 0.05
-      y: 0.05
-      z: 0.05
+      x: 0.05  # Voxel size along X in meters.
+      y: 0.05  # Voxel size along Y in meters.
+      z: 0.05  # Voxel size along Z in meters.
   grid_map:
-    min_num_points_per_cell: 2
-    resolution: 0.1
-    height_type: 0
-    height_thresh: 1.0
+    min_num_points_per_cell: 2  # Minimum number of points required inside a cell; otherwise the cell stays empty (NaN).
+    resolution: 0.1             # Grid-map cell size in meters.
+    height_type: 0              # Elevation rule: 0 = lowest cluster mean, 1 = largest cluster mean within height_thresh.
+    height_thresh: 1.0          # Height window used only when height_type is 1.
