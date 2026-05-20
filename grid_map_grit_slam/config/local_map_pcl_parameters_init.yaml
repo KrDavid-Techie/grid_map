@@ -10,21 +10,21 @@ pcl_grid_map_extraction:      # Parameters consumed by grid_map_pcl when convert
       p: 0.0  # Pitch component of the pre-processing rotation.
       y: 0.0  # Yaw component of the pre-processing rotation.
   cluster_extraction:
-    cluster_tolerance: 0.04   # Slightly tighter clustering keeps nearby height discontinuities separated.
-    min_num_points: 1         # Keep single-point cells so sparse returns under the robot are not discarded.
+    cluster_tolerance: 0.05   # Maximum distance in meters between neighboring points in the same cluster.
+    min_num_points: 2         # Smallest cluster size kept for local-map elevation estimation.
     max_num_points: 1000000   # Largest cluster size kept for elevation estimation.
   outlier_removal:
     is_remove_outliers: true  # Enable statistical outlier removal before building the map.
     mean_K: 10                # Number of nearest neighbors used for outlier statistics.
-    stddev_threshold: 1.5     # Relax filtering so edge and near-body returns survive more often.
+    stddev_threshold: 1.0     # Points farther than this standard-deviation threshold are treated as outliers.
   downsampling:
     is_downsample_cloud: true  # Enable voxel-grid downsampling before map extraction.
     voxel_size:
-      x: 0.03  # Smaller voxels preserve local terrain detail around the robot.
-      y: 0.03  # Smaller voxels preserve local terrain detail around the robot.
-      z: 0.03  # Smaller voxels preserve local terrain detail around the robot.
+      x: 0.05  # Voxel size along X in meters.
+      y: 0.05  # Voxel size along Y in meters.
+      z: 0.05  # Voxel size along Z in meters.
   grid_map:
-    min_num_points_per_cell: 1  # Accept sparse cells so fine-resolution local structure does not collapse to NaN.
-    resolution: 0.05            # Finer local-map cells preserve terrain changes under and near the robot.
+    min_num_points_per_cell: 2  # Minimum number of points required inside a cell; otherwise the cell stays empty (NaN).
+    resolution: 0.1             # Grid-map cell size in meters.
     height_type: 0              # Elevation rule: 0 = lowest cluster mean, 1 = largest cluster mean within height_thresh.
     height_thresh: 1.0          # Height window used only when height_type is 1.

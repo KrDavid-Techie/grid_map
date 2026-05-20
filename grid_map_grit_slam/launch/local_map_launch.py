@@ -72,6 +72,7 @@ def generate_launch_description():
             description='Path to the grid_map_visualization configuration file.'),
         DeclareLaunchArgument(
             'input_topic',
+            #default_value='/utlidar/cloud_base',
             default_value='/lidar/cloud_combined',
             description='Input PointCloud2 topic.'),
         DeclareLaunchArgument(
