@@ -11,5 +11,5 @@ grid_map_visualization:  # ROS 2 node name that owns the visualization parameter
       type: occupancy_grid  # Visualization plugin type for occupancy-grid output.
       params:
         layer: elevation  # GridMap layer name to convert into an occupancy grid.
-        data_min: -1.0    # Lower bound used when scaling local elevation values into occupancy values.
-        data_max: 0.5     # Upper bound used when scaling local elevation values into occupancy values.
+        data_min: -0.3    # Lower bound used when scaling local elevation values into occupancy values.
+        data_max: 1.0     # Upper bound used when scaling local elevation values into occupancy values.
